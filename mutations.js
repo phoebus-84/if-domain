@@ -64,3 +64,50 @@ export const CREATE_PROJECT = gql`
     }
   }
 `;
+
+export const QUERY_PROJECT_TYPES = gql`
+  query GetProjectTypes {
+    instanceVariables {
+      specs {
+        specProjectDesign {
+          id
+          name
+        }
+        specProjectProduct {
+          id
+          name
+        }
+        specProjectService {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const CITE_PROJECT = gql`
+  mutation citeProject(
+    $agent: ID! 
+    $creationTime: DateTime!
+    $resource: ID! # EconomicResource.id
+    $process: ID! # Process.id
+    $unitOne: ID! # Unit.id
+  ) {
+    createEconomicEvent(
+      event: {
+        action: "cite"
+        inputOf: $process
+        provider: $agent
+        receiver: $agent
+        hasPointInTime: $creationTime
+        resourceInventoriedAs: $resource
+        resourceQuantity: { hasNumericalValue: 1, hasUnit: $unitOne }
+      }
+    ) {
+      economicEvent {
+        id
+      }
+    }
+  }
+`;

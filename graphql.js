@@ -1,5 +1,4 @@
 import {GraphQLClient} from 'graphql-request';
-import {CREATE_LOCATION} from './mutations.js';
 
 const endpoint = 'http://65.109.11.42:10000/api'
 
