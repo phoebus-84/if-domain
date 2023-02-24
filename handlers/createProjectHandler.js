@@ -1,46 +1,11 @@
 import { client } from "../graphql.js";
-import {
-  CITE_PROJECT,
-  CREATE_PROCESS,
-  CREATE_PROJECT,
-  QUERY_PROJECT_TYPES,
-} from "../mutations.js";
+import { CREATE_PROCESS, QUERY_PROJECT_TYPES } from "../mutations.js";
+import createProject from "../zenflows/createProject.js";
+import { addRelationHandler } from "./addRelationHandler.js";
 import createLocationHandler from "./createLocationHandler.js";
 
 const queryProjectType = async () => {
   return await client.request(QUERY_PROJECT_TYPES);
-};
-
-const addRelation = async (projectId, processId, originalProjectId) => {
-  const citeVariables = {
-    agent: "0637V2EY26ZPWK87EZMJTF0034",
-    resource: projectId,
-    process: processId,
-    creationTime: new Date().toISOString(),
-    unitOne: "0637V2ZFFM4ZHZPSVNYNCBAW94",
-  };
-  try {
-    await client.request(CITE_PROJECT, { variables: citeVariables });
-    // const { data } = await refetch({ id: projectId });
-    // const resourceOwner = data.economicResource.primaryAccountable.id;
-    // const message = {
-    //   proposalID: projectId,
-    //   proposerName: "0637V2EY26ZPWK87EZMJTF0034",
-    //   originalResourceID: originalProjectId,
-    //   originalResourceName: originalProjectId,
-    // };
-    // await sendMessage(message, [resourceOwner], "Project cited");
-
-    //economic system: points assignments
-    // addIdeaPoints(user!.ulid, IdeaPoints.OnCite);
-    // addStrengthsPoints(resourceOwner, StrengthsPoints.OnCite);
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-const linkDesign = async ({ design, process, originalProjectId }) => {
-  await addRelation(design, process, originalProjectId);
 };
 
 export const handleProjectCreation = async ({
@@ -50,7 +15,6 @@ export const handleProjectCreation = async ({
 }) => {
   const queryProjectTypes = await queryProjectType();
   const specs = queryProjectTypes.data?.instanceVariables.specs;
-  console.log("specs", specs);
   const projectTypes = specs && {
     Design: specs.specProjectDesign.id,
     Service: specs.specProjectService.id,
@@ -61,9 +25,7 @@ export const handleProjectCreation = async ({
   try {
     const processName = `creation of ${formData.main.title} by ${userId}`;
     const process = await client.request(CREATE_PROCESS, { name: processName });
-    console.log("process", process);
     const processId = process.createProcess.process.id;
-
     let location;
     if (formData.location.location || formData.location.remote) {
       location = await createLocationHandler(
@@ -75,25 +37,6 @@ export const handleProjectCreation = async ({
     //   const images = await prepFilesForZenflows(formData.images, getItem("eddsaPrivateKey"));
 
     const tags = formData.main.tags.length > 0 ? formData.main.tags : undefined;
-
-    const linkedDesign = formData.linkedDesign ? formData.linkedDesign : null;
-
-    if (linkedDesign) {
-      await linkDesign({
-        design: linkedDesign,
-        process: processId,
-        description: formData.main.description,
-      });
-    }
-
-    for (const resource of formData.relations) {
-      await addRelation({
-        resource,
-        description: formData.main.description,
-        processId: processId,
-        resourceName: formData.main.title,
-      });
-    }
 
     const variables = {
       resourceSpec: "0637TVG24ZA29N7KRV2NPK7NBC",
@@ -116,11 +59,21 @@ export const handleProjectCreation = async ({
     };
 
     // Create project
-    const project = await client.request(CREATE_PROJECT, variables);
-    console.log("pp", project);
+    const project = await createProject(variables);
+    if (project.errors) return project.errors;
+    console.log("project created", project);
 
     projectId =
       project?.createEconomicEvent.economicEvent.resourceInventoriedAs?.id;
+
+    const linkedDesign = formData.linkedDesign ? formData.linkedDesign : null;
+    if (linkedDesign) {
+      await addDesignHandler(linkedDesign, processId, projectId);
+    }
+
+    for (const resource of formData.relations) {
+      await addRelationHandler(resource, processId, projectId);
+    }
 
     //economic system: points assignments
     //   addIdeaPoints(user.ulid, IdeaPoints.OnCreate);
