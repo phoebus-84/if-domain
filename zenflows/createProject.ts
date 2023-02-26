@@ -1,5 +1,5 @@
 import { gql } from "graphql-request";
-import { client } from "../graphql.js";
+import { client } from "../graphql";
 
 const CREATE_PROJECT = gql`
   mutation CreateProject(
@@ -48,8 +48,27 @@ const CREATE_PROJECT = gql`
     }
   }
 `;
+export type IFile = any;
 
-const createProject = async (variables) => {
+export type ProjectMetadata = any;
+
+export type CreateProjectVariables = {
+  name: string;
+  note: string;
+  metadata: ProjectMetadata;
+  agent: string;
+  creationTime: string;
+  location?: string;
+  tags: string[];
+  resourceSpec: string;
+  oneUnit: string;
+  images?: IFile[];
+  repo: string;
+  process: string;
+  license: string;
+};
+
+const createProject = async (variables: CreateProjectVariables) => {
   return await client.request(CREATE_PROJECT, variables);
 };
 

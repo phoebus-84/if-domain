@@ -1,8 +1,8 @@
-import { client } from "../graphql.js";
-import { CREATE_PROCESS, QUERY_PROJECT_TYPES } from "../mutations.js";
-import createProject from "../zenflows/createProject.js";
-import { addRelationHandler } from "./addRelationHandler.js";
-import createLocationHandler from "./createLocationHandler.js";
+import { client } from "../graphql";
+import { CREATE_PROCESS, QUERY_PROJECT_TYPES } from "../mutations";
+import createProject from "../zenflows/createProject";
+import { addRelationHandler } from "./addRelationHandler";
+import createLocationHandler from "./createLocationHandler";
 
 const queryProjectType = async () => {
   return await client.request(QUERY_PROJECT_TYPES);
@@ -12,6 +12,11 @@ export const handleProjectCreation = async ({
   formData,
   projectType,
   userId,
+}:
+{
+  formData: any;
+  projectType: string;
+  userId: string;
 }) => {
   const queryProjectTypes = await queryProjectType();
   const specs = queryProjectTypes.data?.instanceVariables.specs;
@@ -44,7 +49,7 @@ export const handleProjectCreation = async ({
       agent: "0637V2EY26ZPWK87EZMJTF0034",
       name: formData.main.title,
       note: formData.main.description,
-      location: location?.id,
+      location: location?.spatialThing?.id,
       oneUnit: "0637V2ZFFM4ZHZPSVNYNCBAW94",
       creationTime: new Date().toISOString(),
       repo: formData.main.link,
@@ -68,7 +73,7 @@ export const handleProjectCreation = async ({
 
     const linkedDesign = formData.linkedDesign ? formData.linkedDesign : null;
     if (linkedDesign) {
-      await addDesignHandler(linkedDesign, processId, projectId);
+      await addRelationHandler(linkedDesign, processId, projectId);
     }
 
     for (const resource of formData.relations) {
