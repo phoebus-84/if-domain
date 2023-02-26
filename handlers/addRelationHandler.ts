@@ -14,7 +14,8 @@ export const addRelationHandler = async (
     unitOne: "0637V2ZFFM4ZHZPSVNYNCBAW94",
   };
   try {
-    await citeProject(citeVariables);
+    const response = await citeProject(citeVariables);
+    console.log("response", response);
     // const { data } = await refetch({ id: projectId });
     // const resourceOwner = data.economicResource.primaryAccountable.id;
     // const message = {
@@ -29,6 +30,7 @@ export const addRelationHandler = async (
     // addIdeaPoints(user!.ulid, IdeaPoints.OnCite);
     // addStrengthsPoints(resourceOwner, StrengthsPoints.OnCite);
   } catch (e) {
+    console.log(e)
     console.error(e);
   }
 };

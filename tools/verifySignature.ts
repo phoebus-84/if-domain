@@ -31,10 +31,10 @@ const verifySignature: VerifySignature = async (
     if (check.result !== "1") {
       return [false, "Unauthorized"];
     }
+    return [true, check.result];
   } catch (e) {
     return [false, JSON.stringify(e)];
   }
-  return [true, ""];
 };
 
 export default verifySignature;

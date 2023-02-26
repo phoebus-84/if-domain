@@ -1,6 +1,7 @@
 import { client } from "../graphql";
 import { CREATE_PROCESS, QUERY_PROJECT_TYPES } from "../mutations";
 import createProject from "../zenflows/createProject";
+import addContributorsHandler from "./addContributorsHandler";
 import { addRelationHandler } from "./addRelationHandler";
 import createLocationHandler from "./createLocationHandler";
 
@@ -46,6 +47,7 @@ export const handleProjectCreation = async ({
     const variables = {
       resourceSpec: "0637TVG24ZA29N7KRV2NPK7NBC",
       process: processId,
+      // agent:userId,
       agent: "0637V2EY26ZPWK87EZMJTF0034",
       name: formData.main.title,
       note: formData.main.description,
@@ -66,7 +68,7 @@ export const handleProjectCreation = async ({
     // Create project
     const project = await createProject(variables);
     if (project.errors) return project.errors;
-    console.log("project created", project);
+    console.log("project created", JSON.stringify(project));
 
     projectId =
       project?.createEconomicEvent.economicEvent.resourceInventoriedAs?.id;
@@ -79,6 +81,8 @@ export const handleProjectCreation = async ({
     for (const resource of formData.relations) {
       await addRelationHandler(resource, processId, projectId);
     }
+
+    await addContributorsHandler(projectId, formData.contributors, processId);
 
     //economic system: points assignments
     //   addIdeaPoints(user.ulid, IdeaPoints.OnCreate);
