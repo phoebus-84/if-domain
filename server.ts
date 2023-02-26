@@ -1,38 +1,30 @@
 import cors from "cors";
 import express from "express";
-import { zenroom_exec } from "zenroom";
 import { handleProjectCreation } from "./handlers/createProjectHandler";
-import verifyGraphql from "./zenflows-crypto/src/verifyGraphql";
+import verifySignature from "./tools/verifySignature";
 
 const app = express();
 app.use(cors());
 app.use(express.text());
 app.use(async (req, res, next) => {
-  const zenflowsId = req.headers["zenflows-id"];
-  const zenflowsSign = req.headers["zenflows-sign"];
+  const zenflowsId = req.headers["zenflows-id"] as string;
+  const zenflowsSign: string = req.headers["zenflows-sign"] as string;
   if (!zenflowsId || !zenflowsSign) {
     res.status(401).send("Unauthorized");
   }
-  // const zenflowsPublicKey = "2S8qn196efFgyrC1dYms6UkkhCnweYM6DJhLgd3kuPEm";
+  const itWorks = false
+  if (!itWorks) next();
 
-  // const zenroomData = JSON.stringify({
-  //   gql: Buffer.from(req.body, "base64"),
-  //   "eddsa signature": zenflowsSign,
-  //   "eddsa public key": zenflowsPublicKey,
-  // });
-  // const keys = JSON.stringify({ "eddsa public key": zenflowsPublicKey });
-  // const check = await zenroom_exec(verifyGraphql, {
-  //   data: zenroomData,
-  //   keys: keys,
-  // });
-  // if (check.logs.length > 0) {
-  //   console.log(check.logs);
-  //   res.status(500).send("zenroom error: " + check.logs);
-  // }
-  // if (check.result !== "1") {
-  //   res.status(401).send("Unauthorized");
-  // }
-  next();
+  const verifiedSignature = await verifySignature(
+    zenflowsId,
+    zenflowsSign,
+    req.body
+  );
+  if (!verifiedSignature[0]) {
+    res.status(401).send("Unauthorized: Errors:" + verifiedSignature[1]);
+  } else {
+    next();
+  }
 });
 
 app.post("/create/project", async (req, res) => {
