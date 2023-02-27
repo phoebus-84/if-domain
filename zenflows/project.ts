@@ -30,7 +30,7 @@ const QUERY_PROJECT_FOR_METADATA_UPDATE = gql`
   }
 `;
 
-export type QueryProjectForMetadataUpdateResponse = {
+export interface QueryProjectForMetadataUpdateResponse {
   economicResource: {
     id: string;
     name: string;

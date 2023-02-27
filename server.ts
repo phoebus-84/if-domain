@@ -1,6 +1,7 @@
 import console from "console";
 import cors from "cors";
 import express from "express";
+import acceptContributionHandler from "./handlers/acceptContributionHandler";
 import claimHandler from "./handlers/claimHandler";
 import { handleProjectCreation } from "./handlers/createProjectHandler";
 import {
@@ -122,9 +123,22 @@ app.post("/project/:id/update/relations", async (req, res) => {
   }
 });
 app.post("/project/:id/update/locations", async (req, res) => {});
-app.post("/project/:id/propose/contribution", async (req, res) => {});
-app.post("/proposal/:id/accept", async (req, res) => {});
-app.post("/proposal/:id/decline", async (req, res) => {});
+app.post("/project/:id/propose/contribution", async (req, res) => {
+  const projectId = req.params.id;
+  const userId = req.headers["zenflows-id"] as string;
+
+  try {
+    const response = await proposeContributionHandler(
+      projectId,
+      userId,
+      req.body
+    );
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
 app.post("/resource/:id/claim", async (req, res) => {
   const resource = req.params.id;
   const userId = req.headers["zenflows-id"] as string;
@@ -136,5 +150,27 @@ app.post("/resource/:id/claim", async (req, res) => {
     res.status(500).send(error);
   }
 });
+app.post("/proposal/:id/accept", async (req, res) => {
+  const proposalId = req.params.id;
+  const userId = req.headers["zenflows-id"] as string;
+  try {
+    const response = await acceptContributionHandler(
+      proposalId,
+      userId,
+      req.body
+    );
+    res.send(response);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+app.post("/proposal/:id/decline", async (req, res) => {});
 
 app.listen(3000, () => console.log("Server running on port 3000"));
+function proposeContributionHandler(
+  projectId: string,
+  userId: string,
+  body: any
+) {
+  throw new Error("Function not implemented.");
+}

@@ -45,7 +45,7 @@ export type ContributeToProjectResponse = {
 
 let contributeToProject: (
   variables: ContributeToProjectVariables
-) => Promise<{ errors?: string; event?: string }>;
+) => Promise<{ errors?: unknown; event?: string }>;
 
 contributeToProject = async (variables: ContributeToProjectVariables) => {
   try {
@@ -54,8 +54,8 @@ contributeToProject = async (variables: ContributeToProjectVariables) => {
       variables
     );
     return { event: response.createEconomicEvent.economicEvent.id };
-  } catch (e: any) {
-    return { errors: e.message };
+  } catch (e) {
+    return { errors: e };
   }
 };
 
