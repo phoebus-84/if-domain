@@ -1,5 +1,5 @@
 # if-domain
-if-domain is a TypeScript-based repository that provides a set of REST API endpoints for creating and managing projects, updating project licenses, declarations, contributors, relations, locations, and proposing contributions. Additionally, the repository also provides endpoints for claiming projects from losh.
+if-domain is a TypeScript-based repository that provides a set of REST API endpoints for creating and managing projects, updating project licenses, declarations, contributors, relations, locations, and proposing contributions. Additionally, the repository also provides endpoints for claiming projects from losh. To ensure the security of user data, if-domain utilizes Zenflows-crypto flow to verify the user's signature. When a user sends a request, they sign it with their eddsa key. The server then verifies the signature using the eddsa public key provided by Zenflows server. This verification process ensures that the request was indeed sent by the user and has not been tampered with in transit. By implementing this security measure, if-domain can guarantee the integrity of user data and protect against unauthorized access or malicious activities.
 
 ## Requirements
 To use if-domain, you will need to have the following installed on your machine:
