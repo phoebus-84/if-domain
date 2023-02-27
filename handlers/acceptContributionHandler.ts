@@ -12,7 +12,6 @@ import {
 import sendMessage, { MessageSubject } from "./sendMessageHandler";
 
 const acceptContributionHandler = async (
-  data: any,
   proposalId: string,
   userId: string
 ) => {
@@ -34,7 +33,6 @@ const acceptContributionHandler = async (
       resourceOrigin: intentAccept.resourceInventoriedAs?.id,
     };
     const economicEvents = await acceptProposal(acceptanceVariables);
-    devLog("economicEvents created", economicEvents);
 
     const satisfyIntentsVariables = {
       unitOne: "one",
