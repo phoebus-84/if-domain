@@ -3,6 +3,7 @@ import createProcess from "../zenflows/createProcces";
 import { getProjectForMetadataUpdate } from "../zenflows/project";
 import updateMetadata from "../zenflows/updateMetadata";
 import addContributorsHandler from "./addContributorsHandler";
+import { addRelationsHandler } from "./addRelationHandler";
 
 const updateMetadataHandler = async (
   project: any,
@@ -118,6 +119,24 @@ export const updateContributors = async (
       contributors,
       "contributors",
       addContributorsHandler,
+      userId
+    );
+  } catch (e) {
+    throw e;
+  }
+}
+
+export const updateRelations = async (
+  projectId: string,
+  relations: string[],
+  userId: string
+) => {
+  try {
+    await updateMetadataArray(
+      projectId,
+      relations,
+      "relations",
+      addRelationsHandler,
       userId
     );
   } catch (e) {

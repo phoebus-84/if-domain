@@ -30,31 +30,25 @@ export const addRelationHandler = async (
     // addIdeaPoints(user!.ulid, IdeaPoints.OnCite);
     // addStrengthsPoints(resourceOwner, StrengthsPoints.OnCite);
   } catch (e) {
-    console.log(e)
+    console.log(e);
     console.error(e);
   }
 };
 
 export const addRelationsHandler = async (
-  addRelationsArray: {
-    projectId: string;
-    processId: string;
-    originalProjectId: string;
-  }[]
+  projectId: string,
+  addRelationsArray: string[],
+  processId: string
 ) => {
   for (const relation of addRelationsArray) {
-    await addRelationHandler(
-      relation.projectId,
-      relation.processId,
-      relation.originalProjectId
-    );
+    await addRelationHandler(relation, processId, projectId);
   }
 };
 
 export const addDesignHandler = async (
-  design:string,
-  process:string,
-  originalProjectId:string,
+  design: string,
+  process: string,
+  originalProjectId: string
 ) => {
   await addRelationHandler(design, process, originalProjectId);
 };
