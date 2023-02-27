@@ -49,14 +49,17 @@ This will start the server with nodemon, which will automatically restart the se
 ## API Endpoints
 The following are the available REST API endpoints provided by if-domain:
 
-- POST /project/create: Create a new project.
-- POST /project/:id/update/licenses: Update the licenses for a project with the given id.
-- POST /project/:id/update/declarations: Update the declarations for a project with the given id.
-- POST /project/:id/update/contributors: Update the contributors for a project with the given id.
-- POST /project/:id/update/relations: Update the relations for a project with the given id.
-- POST /project/:id/update/locations: Update the locations for a project with the given id.
-- POST /project/:id/propose/contribution: Propose a contribution for the project with the given id.
-- POST /resource/:id/claim: Claim a resource with the given id.
+| Endpoint                           | Interface                    | Returned Values            | Use Case                                                                                                                           |
+| ---------------------------------- | ---------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `/project/create`                  | TBD                          | TBD                        | Create a new project.                                                                                                              |
+| `/project/:id/update/licenses`     | TBD                          | TBD                        | Update the licenses for a project with the given `id`.                                                                             |
+| `/project/:id/update/declarations` | TBD                          | TBD                        | Update the declarations for a project with the given `id`.                                                                         |
+| `/project/:id/update/contributors` | TBD                          | TBD                        | Update the contributors for a project with the given `id`.                                                                         |
+| `/project/:id/update/relations`    | TBD                          | TBD                        | Update the relations for a project with the given `id`.                                                                            |
+| `/project/:id/update/locations`    | TBD                          | TBD                        | Update the locations for a project with the given `id`.                                                                            |
+| `/project/:id/propose/contribution`| TBD                          | TBD                        | Propose a contribution for the project with the given `id`.                                                                        |
+| `/resource/:id/claim`              | TBD                          | TBD                        | Claim a resource with the given `id`.                                                                                              |
+
 
 ## License
 if-domain is licensed under the MIT License. See LICENSE for more information.
