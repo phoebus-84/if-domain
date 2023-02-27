@@ -2,6 +2,7 @@ import { client } from "../graphql";
 import { CREATE_PROCESS, QUERY_PROJECT_TYPES } from "../mutations";
 import createProject from "../zenflows/createProject";
 import addContributorsHandler from "./addContributorsHandler";
+import { addIdeaPoints, addStrengthsPoints, IdeaPoints, StrengthsPoints } from "./addPointsHandler";
 import { addRelationHandler } from "./addRelationHandler";
 import createLocationHandler from "./createLocationHandler";
 
@@ -82,19 +83,10 @@ export const handleProjectCreation = async ({
       await addRelationHandler(resource, processId, projectId);
     }
 
-    await addContributorsHandler(projectId, formData.contributors, processId);
+    await addContributorsHandler(projectId, formData.contributors, processId, userId);
 
-    //economic system: points assignments
-    //   addIdeaPoints(user.ulid, IdeaPoints.OnCreate);
-    //   addStrengthsPoints(user!.ulid, StrengthsPoints.OnCreate);
-
-    //   await addContributors({
-    //     contributors: formData.contributors,
-    //     processId: processId,
-    //     title: formData.main.title,
-    //     projectId: createProjectData!.createEconomicEvent.economicEvent.resourceInventoriedAs!.id,
-    //     projectType,
-    //   });
+     await addIdeaPoints(userId, IdeaPoints.OnCreate);
+     await addStrengthsPoints(userId, StrengthsPoints.OnCreate);
 
     //   await uploadImages(formData.images);
   } catch (e) {
