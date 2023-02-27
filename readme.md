@@ -10,9 +10,9 @@ pnpm (v6.14.2 or higher)
 ## Installation
 Clone the repository using the following command:
 
-bash
-Copy code
+```
 git clone https://github.com/phoebubs-84/if-domain.git --recurse-submodules
+```
 Note: The --recurse-submodules option is required to clone the submodule used by if-domain.
 
 Navigate to the cloned repository:
