@@ -1,8 +1,9 @@
-require("dotenv").config({ path: "./.env.local" });
 import cors from "cors";
 import express from "express";
 import { handleProjectCreation } from "./handlers/createProjectHandler";
+import { updateLicenses } from "./handlers/updateProjectHandler";
 import verifySignature from "./tools/verifySignature";
+require("dotenv").config({ path: "./.env.local" });
 
 const app = express();
 app.use(cors());
@@ -42,14 +43,49 @@ app.post("/project/create", async (req, res) => {
   }
 });
 
-app.post("/project/:id/update/relations", async (req, res) => {
+app.post("/project/:id/update/licenses", async (req, res) => {
+  let variables;
+  variables = JSON.parse(req.body);
   const projectId = req.params.id;
+  const userId = req.headers["zenflows-id"] as string;
+  // variables.userId = "0637V2EY26ZPWK87EZMJTF0034";
+  try {
+    const response = await updateLicenses(projectId, variables, userId);
+    res.send(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
 });
-app.post("/project/:id/update/main_info", async (req, res) => {});
-app.post("/project/:id/update/contributors", async (req, res) => {});
+app.post("/project/:id/update/declarations", async (req, res) => {
+  let declarations;
+  declarations = JSON.parse(req.body);
+  const projectId = req.params.id;
+  const userId = req.headers["zenflows-id"] as string;
+
+  // try {
+  //   const response = await updateDeclarations(projectId, declarations, userId);
+  //   res.send(response);
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(500).send(error);
+  // }
+});
+app.post("/project/:id/update/contributors", async (req, res) => {
+  let contributors;
+  contributors = JSON.parse(req.body);
+  const projectId = req.params.id;
+  const userId = req.headers["zenflows-id"] as string;
+  // try {
+  //   const response = await updateContributors(projectId, contributors, userId);
+  //   res.send(response);
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(500).send(error);
+  // }
+});
+app.post("/project/:id/update/relations", async (req, res) => {});
 app.post("/project/:id/update/locations", async (req, res) => {});
-app.post("/project/:id/update/licenses", async (req, res) => {});
-app.post("/project/:id/update/declarations", async (req, res) => {});
 app.post("/project/:id/propose/contribution", async (req, res) => {});
 app.post("/resource/:id/claim", async (req, res) => {});
 

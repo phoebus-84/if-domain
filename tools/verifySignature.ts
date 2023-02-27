@@ -1,6 +1,6 @@
 import { zenroom_exec } from "zenroom";
 import verifyGraphql from "../zenflows-crypto/src/verifyGraphql";
-import { getUserPublicKey } from "./../zenflows/getUser";
+import { getUserPublicKey } from "../zenflows/user";
 
 type VerifySignature = (
   personId: string,
