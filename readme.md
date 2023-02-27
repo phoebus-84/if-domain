@@ -17,16 +17,20 @@ Note: The --recurse-submodules option is required to clone the submodule used by
 
 Navigate to the cloned repository:
 
-bash
-Copy code
+```
 cd if-domain
+```
+
 Install dependencies using pnpm:
 
-Copy code
+```
 pnpm install
+```
+
 ## Usage
 
 To build the project, use the following command:
+
 ```
 pnpm build
 ```
