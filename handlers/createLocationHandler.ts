@@ -13,7 +13,7 @@ export default async function handleCreateLocation(location:any, design:boolean)
       lng: position?.lng,
     }});
     const spatialThing = data?.createSpatialThing.spatialThing;
-    return { spatialThing, remote };
+    return { st:spatialThing, remote:remote };
   } catch (e) {
     throw e;
   }

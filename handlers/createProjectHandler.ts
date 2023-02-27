@@ -52,7 +52,7 @@ export const handleProjectCreation = async ({
       agent: "0637V2EY26ZPWK87EZMJTF0034",
       name: formData.main.title,
       note: formData.main.description,
-      location: location?.spatialThing?.id,
+      location: location?.st?.id,
       oneUnit: "0637V2ZFFM4ZHZPSVNYNCBAW94",
       creationTime: new Date().toISOString(),
       repo: formData.main.link,

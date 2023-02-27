@@ -75,12 +75,12 @@ export const updateLicenses = async (
   try {
     const project = await getProjectForMetadataUpdate(projectId);
     const processId = await createProcess(`licenses update @ ${project.name}`);
-    const metadata = await updateMetadata({
-      userId: userId,
+    const metadata = await updateMetadataHandler(
       projectId,
-      metadata: { licenses },
+      {licenses},
       processId,
-    });
+      userId
+    );
     console.log("metadata", metadata);
   } catch (e) {
     throw e;
@@ -97,12 +97,12 @@ export const updateDeclarations = async (
     const processId = await createProcess(
       `declarations update @ ${project.name}`
     );
-    await updateMetadata({
-      userId: userId,
+    await updateMetadataHandler(
       projectId,
-      metadata: { declarations },
+      declarations,
       processId,
-    });
+      userId
+    );
   } catch (e) {
     throw e;
   }
@@ -143,6 +143,7 @@ export const updateRelations = async (
     throw e;
   }
 }
+
 
 
 
