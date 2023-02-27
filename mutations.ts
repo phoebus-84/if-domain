@@ -1,8 +1,5 @@
 import {gql} from 'graphql-request';
 
-
-
-
 export const CREATE_PROCESS = gql`
   mutation CreateProcess($name: String!) {
     createProcess(process: { name: $name }) {
@@ -12,8 +9,6 @@ export const CREATE_PROCESS = gql`
     }
   }
 `;
-
-
 
 export const QUERY_PROJECT_TYPES = gql`
   query GetProjectTypes {

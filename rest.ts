@@ -4,7 +4,7 @@ const signedFetch = async (url: string, request: any) => {
     return await fetch(url, {
       method: "POST",
       headers: requestHeaders,
-      body: JSON.stringify(request),
+      body: requestJSON,
     });
   };
 

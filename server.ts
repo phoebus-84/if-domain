@@ -1,3 +1,4 @@
+require("dotenv").config({ path: "./.env.local" });
 import cors from "cors";
 import express from "express";
 import { handleProjectCreation } from "./handlers/createProjectHandler";

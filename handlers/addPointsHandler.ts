@@ -39,7 +39,7 @@ const addPoints = async (
     owner: id,
   };
 
-  return await signedFetch(process.env.WALLET_ENDPOINT!, request);
+  return await signedFetch("https://gateway0.interfacer.dyne.org/wallet/token", request);
 };
 
 export const addIdeaPoints: AddIdeaPoints = async (id, amount) => {
