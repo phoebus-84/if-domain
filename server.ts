@@ -1,7 +1,8 @@
 import cors from "cors";
 import express from "express";
 import { handleProjectCreation } from "./handlers/createProjectHandler";
-import { updateLicenses } from "./handlers/updateProjectHandler";
+import { updateContributors, updateLicenses } from "./handlers/updateProjectHandler";
+import verifyOwnership from "./tools/verifyOwnership";
 import verifySignature from "./tools/verifySignature";
 require("dotenv").config({ path: "./.env.local" });
 
@@ -48,6 +49,10 @@ app.post("/project/:id/update/licenses", async (req, res) => {
   variables = JSON.parse(req.body);
   const projectId = req.params.id;
   const userId = req.headers["zenflows-id"] as string;
+  const ownership = await verifyOwnership(projectId, userId);
+  if (!ownership[0]) {
+    res.status(401).send("Unauthorized: Errors:" + ownership[1]);
+  }
   // variables.userId = "0637V2EY26ZPWK87EZMJTF0034";
   try {
     const response = await updateLicenses(projectId, variables, userId);
@@ -62,6 +67,10 @@ app.post("/project/:id/update/declarations", async (req, res) => {
   declarations = JSON.parse(req.body);
   const projectId = req.params.id;
   const userId = req.headers["zenflows-id"] as string;
+  const ownership = await verifyOwnership(projectId, userId);
+  if (!ownership[0]) {
+    res.status(401).send("Unauthorized: Errors:" + ownership[1]);
+  }
 
   // try {
   //   const response = await updateDeclarations(projectId, declarations, userId);
@@ -76,13 +85,17 @@ app.post("/project/:id/update/contributors", async (req, res) => {
   contributors = JSON.parse(req.body);
   const projectId = req.params.id;
   const userId = req.headers["zenflows-id"] as string;
-  // try {
-  //   const response = await updateContributors(projectId, contributors, userId);
-  //   res.send(response);
-  // } catch (error) {
-  //   console.log(error);
-  //   res.status(500).send(error);
-  // }
+  const ownership = await verifyOwnership(projectId, userId);
+  if (!ownership[0]) {
+    res.status(401).send("Unauthorized: Errors:" + ownership[1]);
+  }
+  try {
+    const response = await updateContributors(projectId, contributors, userId);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 app.post("/project/:id/update/relations", async (req, res) => {});
 app.post("/project/:id/update/locations", async (req, res) => {});

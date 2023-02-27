@@ -53,12 +53,14 @@ export const addContributorHandler = async (
   );
   const idPoints = await addIdeaPoints(userId, IdeaPoints.OnContributions);
 
-  return {
-    event,
-    messageResponse: messageResponse.ok,
-    stPoints: stPoints.ok,
-    idPoints: idPoints.ok,
-  };
+  console.log(
+    JSON.stringify({
+      event,
+      messageResponse: messageResponse.ok,
+      stPoints: stPoints.ok,
+      idPoints: idPoints.ok,
+    })
+  );
 };
 
 const addContributorsHandler = async (

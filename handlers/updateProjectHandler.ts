@@ -2,6 +2,7 @@ import { arrayEquals, getNewElements } from "../tools/arrayOperations";
 import createProcess from "../zenflows/createProcces";
 import { getProjectForMetadataUpdate } from "../zenflows/project";
 import updateMetadata from "../zenflows/updateMetadata";
+import addContributorsHandler from "./addContributorsHandler";
 
 const updateMetadataHandler = async (
   project: any,
@@ -33,7 +34,8 @@ const updateMetadataHandler = async (
 type CbUpdateFunction = (
   projectId: string,
   array: Array<string>,
-  processId: string
+  processId: string,
+  userId: string
 ) => Promise<void>;
 
 
@@ -51,7 +53,7 @@ const updateMetadataArray = async (
     const processName = `${key} update @ ${project.name}`;
     const processId = await createProcess(processName);
     const newArray = getNewElements(project.metadata[key], array);
-    if (newArray.length > 0) await cb(projectId, newArray, processId);
+    if (newArray.length > 0) await cb(projectId, newArray, processId, userId);
     await updateMetadata({
       projectId,
       metadata: { [key]: array },
@@ -104,5 +106,24 @@ export const updateDeclarations = async (
     throw e;
   }
 };
+
+export const updateContributors = async (
+  projectId: string,
+  contributors: string[],
+  userId: string
+) => {
+  try {
+    await updateMetadataArray(
+      projectId,
+      contributors,
+      "contributors",
+      addContributorsHandler,
+      userId
+    );
+  } catch (e) {
+    throw e;
+  }
+}
+
 
 
