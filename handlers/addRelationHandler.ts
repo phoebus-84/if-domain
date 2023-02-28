@@ -11,7 +11,7 @@ export const addRelationHandler = async (
     resource: projectId,
     process: processId,
     creationTime: new Date().toISOString(),
-    unitOne: "0637V2ZFFM4ZHZPSVNYNCBAW94",
+    unitOne: process.env.UNIT_ONE!,
   };
   try {
     const response = await citeProject(citeVariables);

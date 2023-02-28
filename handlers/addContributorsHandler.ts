@@ -21,8 +21,7 @@ export const addContributorHandler = async (
     agent: "0630EEVR4N5Z16NNDGZ4KMV1AW",
     process: processId,
     creationTime: new Date().toISOString(),
-    // unitOne: getUnit,
-    unitOne: "0637V2ZFFM4ZHZPSVNYNCBAW94",
+    unitOne: process.env.UNIT_ONE!,
     // we need some system variables for contributions types
     conformsTo: "0637TVG24ZA29N7KRV2NPK7NBC",
     // conformsTo:confomsTo

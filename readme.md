@@ -31,6 +31,16 @@ Install dependencies using pnpm:
 pnpm install
 ```
 
+To use the if-domain service, you will need to provide and configure a .env.local file. This file should include the following variables:
+
+- `GRAPHQL_ENDPOINT`: This should be set to the GraphQL endpoint URL for the service.
+- `ZENFLOWS_ID`: This should be set to the Zenflows `ID` to comunicate with a zenflows instance.
+- `UNIT_ONE`: This should be set to the Unit One `ID` provided from a zenflows instance.
+- `LOSH_ID`: This should be set to the System User _Losh_ `ID`.
+- `WALLET_ENDPOINT`: This should be set to the wallet endpoint URL for the service.
+- `IDEA_POINTS_ON_FORK`, `IDEA_POINTS_ON_CREATE`, `IDEA_POINTS_ON_CONTRIBUTIONS`, `IDEA_POINTS_ON_STAR`, `IDEA_POINTS_ON_WATCH`, `IDEA_POINTS_ON_ACCEPT`, and `IDEA_POINTS_ON_CITE`: These variables should be set to the number of idea points awarded for the corresponding actions.
+- `STRENGTHS_POINTS_ON_FORK`, `STRENGTHS_POINTS_ON_CREATE`, `STRENGTHS_POINTS_ON_CONTRIBUTIONS`, `STRENGTHS_POINTS_ON_STAR`, `STRENGTHS_POINTS_ON_WATCH`, `STRENGTHS_POINTS_ON_ACCEPT`, and `STRENGTHS_POINTS_ON_CITE`: These variables should be set to the number of strength points awarded for the corresponding actions.
+
 ## Usage
 
 To build the project, use the following command:

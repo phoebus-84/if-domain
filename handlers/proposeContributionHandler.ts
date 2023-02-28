@@ -1,10 +1,10 @@
 import createProcess from "../zenflows/createProcces";
+import { forkProject } from "../zenflows/forkProject";
 import {
   createProposal,
   linkContributionProposalIntent,
   proposeContribution,
 } from "../zenflows/proposal";
-import { forkProject } from "../zenflows/forkProject";
 import { getProjectForMetadataUpdate } from "./../zenflows/project";
 import {
   addIdeaPoints,
@@ -31,7 +31,7 @@ const createContributionHandler = async (
     note: data.description,
     metadata: JSON.stringify(project?.metadata),
     location: project!.currentLocation?.id,
-    unitOne: "one", //
+    unitOne: process.env.UNIT_ONE!,
     creationTime: new Date().toISOString(),
     repo: data.contributionRepositoryID,
     tags: project!.classifiedAs,
@@ -52,7 +52,7 @@ const createContributionHandler = async (
     process: processContributionId,
     owner: project.primaryAccountable.id,
     proposer: userId,
-    unitOne: "one", //
+    unitOne: process.env.UNIT_ONE!,
     creationTime: new Date().toISOString(),
   };
   const contribution = await proposeContribution(contributionVariables);

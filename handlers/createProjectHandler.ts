@@ -2,7 +2,12 @@ import { client } from "../graphql";
 import { CREATE_PROCESS, QUERY_PROJECT_TYPES } from "../mutations";
 import createProject from "../zenflows/createProject";
 import addContributorsHandler from "./addContributorsHandler";
-import { addIdeaPoints, addStrengthsPoints, IdeaPoints, StrengthsPoints } from "./addPointsHandler";
+import {
+  addIdeaPoints,
+  addStrengthsPoints,
+  IdeaPoints,
+  StrengthsPoints,
+} from "./addPointsHandler";
 import { addRelationHandler } from "./addRelationHandler";
 import createLocationHandler from "./createLocationHandler";
 
@@ -14,8 +19,7 @@ export const handleProjectCreation = async ({
   formData,
   projectType,
   userId,
-}:
-{
+}: {
   formData: any;
   projectType: string;
   userId: string;
@@ -53,7 +57,7 @@ export const handleProjectCreation = async ({
       name: formData.main.title,
       note: formData.main.description,
       location: location?.st?.id,
-      oneUnit: "0637V2ZFFM4ZHZPSVNYNCBAW94",
+      oneUnit: process.env.UNIT_ONE!,
       creationTime: new Date().toISOString(),
       repo: formData.main.link,
       license: "",
@@ -83,10 +87,15 @@ export const handleProjectCreation = async ({
       await addRelationHandler(resource, processId, projectId);
     }
 
-    await addContributorsHandler(projectId, formData.contributors, processId, userId);
+    await addContributorsHandler(
+      projectId,
+      formData.contributors,
+      processId,
+      userId
+    );
 
-     await addIdeaPoints(userId, IdeaPoints.OnCreate);
-     await addStrengthsPoints(userId, StrengthsPoints.OnCreate);
+    await addIdeaPoints(userId, IdeaPoints.OnCreate);
+    await addStrengthsPoints(userId, StrengthsPoints.OnCreate);
 
     //   await uploadImages(formData.images);
   } catch (e) {

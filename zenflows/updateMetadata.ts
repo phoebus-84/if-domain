@@ -67,7 +67,10 @@ const updateMetadata = (v: {
     process: v.processId,
     agent: v.userId,
     resource: v.projectId,
-    quantity: v.quantity || { hasNumericalValue: 1, hasUnit: "unitId" },
+    quantity: v.quantity || {
+      hasNumericalValue: 1,
+      hasUnit: process.env.UNIT_ONE!,
+    },
     now: new Date().toISOString(),
     metadata: v.metadata,
   };

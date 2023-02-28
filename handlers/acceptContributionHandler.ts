@@ -35,7 +35,7 @@ const acceptContributionHandler = async (
     const economicEvents = await acceptProposal(acceptanceVariables);
 
     const satisfyIntentsVariables = {
-      unitOne: "one",
+      unitOne: process.env.UNIT_ONE!,
       intentCited: intentCite.id,
       intentAccepted: intentAccept.id,
       intentModify: intentModify.id,

@@ -235,12 +235,15 @@ export const acceptProposal = async (v: Partial<AcceptProposalVariables>) => {
     process: v.process,
     owner: v.owner,
     proposer: v.proposer,
-    unitOne: "One", //get unit
+    unitOne: process.env.UNIT_ONE!,
     resourceForked: v.resourceForked,
     resourceOrigin: v.resourceOrigin,
     creationTime: new Date().toISOString(),
   };
-  const data = await client.request<AcceptProposalResponse>(ACCEPT_PROPOSAL, variables);
+  const data = await client.request<AcceptProposalResponse>(
+    ACCEPT_PROPOSAL,
+    variables
+  );
   if (!data) throw new Error("Proposal not accepted");
   return data;
 };
@@ -305,7 +308,7 @@ export type SatisfyIntentsVariables = {
 
 export const satisfyIntents = async (v: Partial<SatisfyIntentsVariables>) => {
   const variables = {
-    unitOne: "One", //get unit
+    unitOne: process.env.UNIT_ONE,
     intentCited: v.intentCited,
     intentAccepted: v.intentAccepted,
     intentModify: v.intentModify,

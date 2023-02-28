@@ -3,10 +3,10 @@ import { client } from "../graphql";
 
 export const CONTRIBUTE_TO_PROJECT = gql`
   mutation contributeToProject(
-    $agent: ID! # Agent.id
+    $agent: ID! 
     $creationTime: DateTime!
-    $process: ID! # Process.id
-    $unitOne: ID! # Unit.id
+    $process: ID! 
+    $unitOne: ID!
     $conformsTo: ID!
   ) {
     createEconomicEvent(
