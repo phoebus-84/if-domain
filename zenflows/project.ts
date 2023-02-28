@@ -55,12 +55,15 @@ export interface QueryProjectForMetadataUpdateResponse {
       id: string;
     };
   };
-};
+}
 
 export const getProjectForMetadataUpdate = async (id: string) => {
-  const response = await client.request(QUERY_PROJECT_FOR_METADATA_UPDATE, {
-    id: id,
-  });
+  const response = await client.request<QueryProjectForMetadataUpdateResponse>(
+    QUERY_PROJECT_FOR_METADATA_UPDATE,
+    {
+      id: id,
+    }
+  );
   return response.economicResource;
 };
 
@@ -72,8 +75,11 @@ const QUERY_RESOURCE = gql`
       note
       metadata
       license
+      classifiedAs
       repo
-      traceDpp
+      currentLocation {
+        id
+      }
       conformsTo {
         id
       }
@@ -97,8 +103,11 @@ export type QueryResourceResponse = {
     note: string;
     metadata: any;
     license: string;
+    classifiedAs: string[];
     repo: string;
-    traceDpp: string;
+    currentLocation: {
+      id: string;
+    };
     conformsTo: {
       id: string;
     };

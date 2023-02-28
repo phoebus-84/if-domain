@@ -80,11 +80,11 @@ export const handleProjectCreation = async ({
 
     const linkedDesign = formData.linkedDesign ? formData.linkedDesign : null;
     if (linkedDesign) {
-      await addRelationHandler(linkedDesign, processId, projectId);
+      await addRelationHandler(linkedDesign, processId, projectId, userId);
     }
 
     for (const resource of formData.relations) {
-      await addRelationHandler(resource, processId, projectId);
+      await addRelationHandler(resource, processId, projectId, userId);
     }
 
     await addContributorsHandler(

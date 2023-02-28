@@ -5,7 +5,7 @@ import {
   linkContributionProposalIntent,
   proposeContribution,
 } from "../zenflows/proposal";
-import { getProjectForMetadataUpdate } from "./../zenflows/project";
+import { getProjectForMetadataUpdate, getResource } from "./../zenflows/project";
 import {
   addIdeaPoints,
   addStrengthsPoints,
@@ -18,7 +18,7 @@ const createContributionHandler = async (
   projectId: string,
   userId: string
 ) => {
-  const project = await getProjectForMetadataUpdate(projectId);
+  const project = await getResource(projectId);
   if (!project) throw new Error("No original resource found");
   const processName = `fork of ${project.name} by ${userId}`;
   const processId = await createProcess(processName);
@@ -73,7 +73,6 @@ const createContributionHandler = async (
     originalResourceName: project.name,
     originalResourceID: project.id,
     proposerName: userId,
-    ownerName: project.primaryAccountable.name,
   };
 
   sendMessage(
