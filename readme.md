@@ -58,6 +58,8 @@ pnpm start
 
 This will start the server on port 3000.
 
+Use --port to set the port you wish.
+
 To run the server in development mode, use the following command:
 
 ```
