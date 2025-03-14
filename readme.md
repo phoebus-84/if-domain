@@ -31,7 +31,7 @@ Install dependencies using pnpm:
 pnpm install
 ```
 
-To use the if-domain service, you will need to provide and configure a .env.local file. This file should include the following variables:
+To use the if-domain service, you will need to provide and configure a '.env.local' file. This file should include the following variables:
 
 - `GRAPHQL_ENDPOINT`: This should be set to the GraphQL endpoint URL for the service.
 - `ZENFLOWS_ID`: This should be set to the Zenflows `ID` to comunicate with a zenflows instance.
