@@ -27,6 +27,10 @@ cd if-domain
 
 Install dependencies using pnpm:
 
+```
+pnpm install
+```
+
 To use the if-domain service, you will need to provide and configure a '.env.local' file. This file should include the following variables:
 
 - `GRAPHQL_ENDPOINT`: This should be set to the GraphQL endpoint URL for the service.
@@ -100,7 +104,4 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-```
-pnpm install
-```
 
